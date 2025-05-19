@@ -6,10 +6,24 @@ import React from 'react';
 import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const imageSize = width - 40; // Full width minus padding
+const imageSize = width - 40; 
+
+const getShipFrontImage = (shipId: string, side: string = 'top') => {
+  const shipImages: Record<string, Record<string, any>> = {
+    'power-small': {
+      'top': require('@/assets/images/power-small-front.png'),
+      'front': require('@/assets/images/power-small-front.png'),
+      'back': require('@/assets/images/power-small-back.png'),
+      'right': require('@/assets/images/power-small-right.png'),
+      'left': require('@/assets/images/power-small-left.png'),
+    }
+  };
+  
+  return shipImages[shipId]?.[side] || require('@/assets/images/power-small.png');
+};
 
 export default function ShipDetailsScreen() {
-  const { name, type } = useLocalSearchParams<{ name: string; type: string }>();
+  const { name, id } = useLocalSearchParams<{ name: string; id: string }>();
 
   return (
     <>
@@ -24,7 +38,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Port Side (Left)</ThemedText>
             <Image
-              source={{ uri: 'https://placehold.co/600x400/1D3D47/FFFFFF/png?text=Port+Side' }}
+              source={getShipFrontImage(id, 'left')}
               style={styles.image}
               contentFit="contain"
             />
@@ -32,7 +46,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Starboard Side (Right)</ThemedText>
             <Image
-              source={{ uri: 'https://placehold.co/600x400/1D3D47/FFFFFF/png?text=Starboard+Side' }}
+              source={getShipFrontImage(id, 'right')}
               style={styles.image}
               contentFit="contain"
             />
@@ -40,7 +54,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Stern (Back)</ThemedText>
             <Image
-              source={{ uri: 'https://placehold.co/600x400/1D3D47/FFFFFF/png?text=Stern' }}
+              source={getShipFrontImage(id, 'back')}
               style={styles.image}
               contentFit="contain"
             />
@@ -48,7 +62,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Bow (Front)</ThemedText>
             <Image
-              source={{ uri: 'https://placehold.co/600x400/1D3D47/FFFFFF/png?text=Bow' }}
+              source={getShipFrontImage(id, 'front')}
               style={styles.image}
               contentFit="contain"
             />

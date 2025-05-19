@@ -75,7 +75,7 @@ export default function LightsScreen() {
           ]}
           onPress={() => router.push({
             pathname: '/ship-details',
-            params: { name: ship.name, type: ship.type }
+            params: { name: ship.name, id: ship.id }
           })}>
           <Image
             source={ship.image}
