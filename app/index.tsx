@@ -10,6 +10,7 @@ import { Colors } from '@/constants/Colors';
 import { translations } from '@/constants/Translations';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import CategoryCard from '../components/CategoryCard';
 
 type Category = {
   id: string;
@@ -78,8 +79,10 @@ export default function HomeScreen() {
               { opacity: pressed ? 0.7 : 1 },
             ]}
             onPress={() => router.push(category.route)}>
-            <Ionicons name={category.icon} size={32} color={tintColor} />
-            <ThemedText type="subtitle">{t(category.titleKey)}</ThemedText>
+            <CategoryCard 
+              name={t(category.titleKey)} 
+              iconName={category.icon}
+            ></CategoryCard>
           </Pressable>
         ))}
       </ThemedView>
@@ -101,13 +104,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   tile: {
-    width: '45%',
-    aspectRatio: 1,
+    width: '47%',
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
     gap: 8,
   },
   reactLogo: {
