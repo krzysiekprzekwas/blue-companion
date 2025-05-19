@@ -22,14 +22,14 @@ const ships: Ship[] = [
     name: 'Small Power Vessel',
     type: 'Power Vessel',
     category: 'Less than 12m',
-    imageUrl: 'https://placehold.co/400x200/1D3D47/FFFFFF/png?text=Small+Power+Vessel',
+    imageUrl: '../assets/images/power-medium.png',
   },
   {
     id: 'power-medium',
     name: 'Medium Power Vessel',
     type: 'Power Vessel',
     category: 'Less than 50m',
-    imageUrl: 'https://placehold.co/400x200/1D3D47/FFFFFF/png?text=Medium+Power+Vessel',
+    imageUrl: '/assets/images/power-medium.png',
   },
   {
     id: 'power-large',

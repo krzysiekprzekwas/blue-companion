@@ -7,11 +7,13 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
+import { translations } from '@/constants/Translations';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 type Category = {
   id: string;
-  title: string;
+  titleKey: keyof typeof translations.en;
   icon: keyof typeof Ionicons.glyphMap;
   route: '/lights' | '/flags' | '/daysigns' | '/buoys' | '/sounds';
 };
@@ -19,31 +21,31 @@ type Category = {
 const categories: Category[] = [
   {
     id: 'lights',
-    title: 'Lights',
+    titleKey: 'lights',
     icon: 'bulb-outline',
     route: '/lights',
   },
   {
     id: 'flags',
-    title: 'Flags',
+    titleKey: 'flags',
     icon: 'flag-outline',
     route: '/flags',
   },
   {
     id: 'daysigns',
-    title: 'Day Signs',
+    titleKey: 'daySigns',
     icon: 'warning-outline',
     route: '/daysigns',
   },
   {
     id: 'buoys',
-    title: 'Buoys',
+    titleKey: 'buoys',
     icon: 'compass-outline',
     route: '/buoys',
   },
   {
     id: 'sounds',
-    title: 'Sounds',
+    titleKey: 'sounds',
     icon: 'volume-high-outline',
     route: '/sounds',
   },
@@ -53,6 +55,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme() ?? 'light';
   const tintColor = Colors[colorScheme].tint;
+  const { t } = useLanguage();
 
   return (
     <ParallaxScrollView
@@ -64,7 +67,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Categories</ThemedText>
+        <ThemedText type="title">{t('categories')}</ThemedText>
       </ThemedView>
       <ThemedView style={styles.gridContainer}>
         {categories.map((category) => (
@@ -76,7 +79,7 @@ export default function HomeScreen() {
             ]}
             onPress={() => router.push(category.route)}>
             <Ionicons name={category.icon} size={32} color={tintColor} />
-            <ThemedText type="subtitle">{category.title}</ThemedText>
+            <ThemedText type="subtitle">{t(category.titleKey)}</ThemedText>
           </Pressable>
         ))}
       </ThemedView>

@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { Colors } from '@/constants/Colors';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
@@ -24,31 +25,40 @@ export default function RootLayout() {
   const tintColor = Colors[colorScheme ?? 'light'].tint;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            title: 'BlueHorizon Companion',
-            headerTitleAlign: 'center',
-            headerRight: () => (
-              <Pressable onPress={() => router.push('/settings')} style={{ marginRight: 16 }}>
-                <Ionicons name="settings-sharp" size={24} color={tintColor} />
-              </Pressable>
-            ),
+    <LanguageProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
+            },
+            headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
           }}
-        />
-        <Stack.Screen
-          name="settings"
-          options={{
-            title: 'Settings',
-            headerTitleAlign: 'center',
-            headerRight: () => null,
-          }}
+        >
+          <Stack.Screen
+            name="index"
+            options={{
+              title: 'BlueHorizon Companion',
+              headerTitleAlign: 'center',
+              headerRight: () => (
+                <Pressable onPress={() => router.push('/settings')} style={{ marginRight: 16 }}>
+                  <Ionicons name="settings-sharp" size={24} color={tintColor} />
+                </Pressable>
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="settings"
+            options={{
+              title: 'Settings',
+              headerTitleAlign: 'center',
+              headerRight: () => null,
+            }}
           />
           <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
