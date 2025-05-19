@@ -8,18 +8,32 @@ import { Dimensions, ScrollView, StyleSheet } from 'react-native';
 const { width } = Dimensions.get('window');
 const imageSize = width - 40; 
 
-const getShipFrontImage = (shipId: string, side: string = 'top') => {
+const getShipImage = (shipId: string, side: string = 'top') => {
   const shipImages: Record<string, Record<string, any>> = {
     'power-small': {
-      'top': require('@/assets/images/power-small-front.png'),
-      'front': require('@/assets/images/power-small-front.png'),
-      'back': require('@/assets/images/power-small-back.png'),
-      'right': require('@/assets/images/power-small-right.png'),
-      'left': require('@/assets/images/power-small-left.png'),
+      'top': require('@/assets/images/ships/power-small.png'),
+      'front': require('@/assets/images/ships/power-small-front.png'),
+      'back': require('@/assets/images/ships/power-small-back.png'),
+      'right': require('@/assets/images/ships/power-small-right.png'),
+      'left': require('@/assets/images/ships/power-small-left.png'),
+    },
+    'power-medium': {
+      'top': require('@/assets/images/ships/power-medium.png'),
+      'front': require('@/assets/images/ships/power-medium-front.png'),
+      'back': require('@/assets/images/ships/power-medium-back.png'),
+      'right': require('@/assets/images/ships/power-medium-right.png'),
+      'left': require('@/assets/images/ships/power-medium-left.png'),
+    },
+    'power-large': {
+      'top': require('@/assets/images/ships/power-large.png'),
+      'front': require('@/assets/images/ships/power-large-front.png'),
+      'back': require('@/assets/images/ships/power-large-back.png'),
+      'right': require('@/assets/images/ships/power-large-right.png'),
+      'left': require('@/assets/images/ships/power-large-left.png'),
     }
   };
   
-  return shipImages[shipId]?.[side] || require('@/assets/images/power-small.png');
+  return shipImages[shipId]?.[side] || require('@/assets/images/ships/power-small.png');
 };
 
 export default function ShipDetailsScreen() {
@@ -35,10 +49,11 @@ export default function ShipDetailsScreen() {
       />
       <ThemedView style={styles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+          <ThemedText type="title">{name}</ThemedText>
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Port Side (Left)</ThemedText>
             <Image
-              source={getShipFrontImage(id, 'left')}
+              source={getShipImage(id, 'left')}
               style={styles.image}
               contentFit="contain"
             />
@@ -46,7 +61,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Starboard Side (Right)</ThemedText>
             <Image
-              source={getShipFrontImage(id, 'right')}
+              source={getShipImage(id, 'right')}
               style={styles.image}
               contentFit="contain"
             />
@@ -54,7 +69,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Stern (Back)</ThemedText>
             <Image
-              source={getShipFrontImage(id, 'back')}
+              source={getShipImage(id, 'back')}
               style={styles.image}
               contentFit="contain"
             />
@@ -62,7 +77,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Bow (Front)</ThemedText>
             <Image
-              source={getShipFrontImage(id, 'front')}
+              source={getShipImage(id, 'front')}
               style={styles.image}
               contentFit="contain"
             />

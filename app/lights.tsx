@@ -22,21 +22,21 @@ const ships: Ship[] = [
     name: 'Small Power Vessel',
     type: 'Power Vessel',
     category: 'Less than 12m',
-    image: require('@/assets/images/power-small.png'),
+    image: require('@/assets/images/ships/power-small.png'),
   },
   {
     id: 'power-medium',
     name: 'Medium Power Vessel',
     type: 'Power Vessel',
     category: 'Less than 50m',
-    image: require('@/assets/images/power-medium.png'),
+    image: require('@/assets/images/ships/power-medium.png'),
   },
   {
     id: 'power-large',
     name: 'Large Power Vessel',
     type: 'Power Vessel',
     category: 'More than 50m',
-    image: require('@/assets/images/power-large.png'),
+    image: require('@/assets/images/ships/power-large.png'),
   },
   // Fishing vessels
   {
@@ -44,14 +44,14 @@ const ships: Ship[] = [
     name: 'Fishing Trawler',
     type: 'Fishing Vessel',
     category: 'Trawler',
-    image: require('@/assets/images/power-medium.png'),
+    image: require('@/assets/images/ships/power-medium.png'),
   },
   {
     id: 'fishing-other',
     name: 'Other Fishing Vessel',
     type: 'Fishing Vessel',
     category: 'Not Trawler',
-    image: require('@/assets/images/power-medium.png'),
+    image: require('@/assets/images/ships/power-medium.png'),
   },
 ];
 
