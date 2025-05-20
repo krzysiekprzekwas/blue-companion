@@ -3,8 +3,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 
 type SoundSignal = {
   id: string;
@@ -99,7 +99,15 @@ const SignalVisual = ({ type, count = 1 }: { type: 'dot' | 'line' | 'bell' | 'go
 };
 
 export default function SoundsScreen() {
-  const groups = Array.from(new Set(soundSignals.map(signal => signal.group)));
+  const [activeTab, setActiveTab] = useState<'warnings' | 'visibility'>('warnings');
+  const colorScheme = useColorScheme() ?? 'light';
+  const tintColor = Colors[colorScheme].tint;
+
+  const filteredSignals = soundSignals.filter(signal => 
+    activeTab === 'warnings' 
+      ? signal.group === 'Warnings & Maneuvers'
+      : signal.group === 'Low Visibility'
+  );
 
   return (
     <>
@@ -110,27 +118,55 @@ export default function SoundsScreen() {
         }}
       />
       <ThemedView style={styles.container}>
+        <ThemedView style={styles.tabContainer}>
+          <Pressable
+            style={[
+              styles.tab,
+              activeTab === 'warnings' && { backgroundColor: tintColor },
+            ]}
+            onPress={() => setActiveTab('warnings')}>
+            <ThemedText
+              style={[
+                styles.tabText,
+                activeTab === 'warnings' && { color: '#FFFFFF' },
+              ]}>
+              Warnings
+            </ThemedText>
+          </Pressable>
+          <Pressable
+            style={[
+              styles.tab,
+              activeTab === 'visibility' && { backgroundColor: tintColor },
+            ]}
+            onPress={() => setActiveTab('visibility')}>
+            <ThemedText
+              style={[
+                styles.tabText,
+                activeTab === 'visibility' && { color: '#FFFFFF' },
+              ]}>
+              Low Visibility
+            </ThemedText>
+          </Pressable>
+        </ThemedView>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-          {groups.map((group) => (
-            <ThemedView key={group} style={styles.groupContainer}>
-              <ThemedText type="title">{group}</ThemedText>
-              {soundSignals
-                .filter(signal => signal.group === group)
-                .map((signal) => (
-                  <ThemedView key={signal.id} style={styles.signalTile}>
-                    <ThemedView style={styles.signalInfo}>
-                      <ThemedText type="subtitle">{signal.name}</ThemedText>
-                      <ThemedText>{signal.description}</ThemedText>
-                    </ThemedView>
-                    <ThemedView style={styles.signalVisual}>
-                      {signal.signals.map((s, index) => (
-                        <SignalVisual key={index} type={s.type} count={s.count} />
-                      ))}
-                    </ThemedView>
-                  </ThemedView>
-                ))}
-            </ThemedView>
-          ))}
+          <ThemedView style={styles.groupContainer}>
+            <ThemedText type="title">
+              {activeTab === 'warnings' ? 'Warnings & Maneuvers' : 'Low Visibility'}
+            </ThemedText>
+            {filteredSignals.map((signal) => (
+              <ThemedView key={signal.id} style={styles.signalTile}>
+                <ThemedView style={styles.signalInfo}>
+                  <ThemedText type="subtitle">{signal.name}</ThemedText>
+                  <ThemedText>{signal.description}</ThemedText>
+                </ThemedView>
+                <ThemedView style={styles.signalVisual}>
+                  {signal.signals.map((s, index) => (
+                    <SignalVisual key={index} type={s.type} count={s.count} />
+                  ))}
+                </ThemedView>
+              </ThemedView>
+            ))}
+          </ThemedView>
         </ScrollView>
       </ThemedView>
     </>
@@ -142,6 +178,22 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     gap: 16,
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 8,
+  },
+  tab: {
+    flex: 1,
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    alignItems: 'center',
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: '500',
   },
   scrollView: {
     flex: 1,
