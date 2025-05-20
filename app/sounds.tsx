@@ -4,17 +4,15 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Stack } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import Svg, { Circle, Line, Path } from 'react-native-svg';
 
 type SoundSignal = {
   id: string;
   name: string;
   description: string;
   group: string;
-  signals: {
-    type: 'dot' | 'line' | 'bell' | 'gong';
-    count?: number;
-  }[];
+  signal: string;
 };
 
 const soundSignals: SoundSignal[] = [
@@ -24,21 +22,35 @@ const soundSignals: SoundSignal[] = [
     name: 'Turning Right',
     description: 'One short blast indicates intention to turn to starboard (right)',
     group: 'Warnings & Maneuvers',
-    signals: [{ type: 'dot', count: 1 }],
+    signal: '.',
   },
   {
     id: 'turning-left',
     name: 'Turning Left',
     description: 'Two short blasts indicate intention to turn to port (left)',
     group: 'Warnings & Maneuvers',
-    signals: [{ type: 'dot', count: 2 }],
+    signal: '..',
   },
   {
     id: 'going-backwards',
     name: 'Going Backwards',
     description: 'Three short blasts indicate vessel is operating astern propulsion',
     group: 'Warnings & Maneuvers',
-    signals: [{ type: 'dot', count: 3 }],
+    signal: '...',
+  },
+  {
+    id: 'overtake-starboard',
+    name: 'I intend to overtake on your starboard',
+    description: 'Three short blasts indicate vessel is operating astern propulsion',
+    group: 'Warnings & Maneuvers',
+    signal: '--.',
+  },
+  {
+    id: 'overtake-port',
+    name: 'I intend to overtake on your port',
+    description: 'Three short blasts indicate vessel is operating astern propulsion',
+    group: 'Warnings & Maneuvers',
+    signal: '--..',
   },
   // Low Visibility
   {
@@ -46,55 +58,88 @@ const soundSignals: SoundSignal[] = [
     name: 'Power Ship Moving',
     description: 'One prolonged blast every 2 minutes indicates vessel is making way through water',
     group: 'Low Visibility',
-    signals: [{ type: 'line', count: 1 }],
+    signal: '--..',
   },
   {
     id: 'power-ship-not-moving',
     name: 'Power Ship Not Moving',
     description: 'Two prolonged blasts every 2 minutes indicates vessel is stopped and making no way through water',
     group: 'Low Visibility',
-    signals: [{ type: 'line', count: 2 }],
+    signal: '--..',
   },
   {
     id: 'anchored-less-100',
     name: 'Anchored Less Than 100m',
     description: 'Rapid ringing of bell for 5 seconds every minute indicates vessel at anchor less than 100m in length',
     group: 'Low Visibility',
-    signals: [{ type: 'bell', count: 5 }],
+    signal: '--..b',
   },
   {
     id: 'anchored-over-100',
     name: 'Anchored Over 100m',
     description: 'Rapid ringing of bell for 5 seconds followed by gong every minute indicates vessel at anchor over 100m in length',
     group: 'Low Visibility',
-    signals: [
-      { type: 'bell', count: 5 },
-      { type: 'gong', count: 1 },
-    ],
+    signal: '--..bg',
   },
 ];
 
-const SignalVisual = ({ type, count = 1 }: { type: 'dot' | 'line' | 'bell' | 'gong'; count?: number }) => {
-  const colorScheme = useColorScheme() ?? 'light';
-  const tintColor = Colors[colorScheme].tint;
+const Dot = ({ color }: { color: string }) => (
+  <Svg width="24" height="24" viewBox="0 0 24 24">
+    <Circle cx="12" cy="12" r="6" fill={color} />
+  </Svg>
+);
 
-  const renderSignal = () => {
-    switch (type) {
-      case 'dot':
-        return Array(count).fill('•').join(' ');
-      case 'line':
-        return Array(count).fill('—').join(' ');
-      case 'bell':
-        return Array(count).fill('🔔').join(' ');
-      case 'gong':
-        return Array(count).fill('🔔').join(' ');
+const LineSymbol = ({ color }: { color: string }) => (
+  <Svg width="48" height="24" viewBox="0 0 48 24">
+    <Line x1="4" y1="12" x2="44" y2="12" stroke={color} strokeWidth="4" />
+  </Svg>
+);
+
+const Bell = ({ color }: { color: string }) => (
+  <Svg width="24" height="24" viewBox="0 0 24 24">
+    <Path
+      d="M12 2C8.13 2 5 5.13 5 9v7c0 2.12 1.04 4.04 2.71 5.29L7 22h10l-.71-.71C17.96 20.04 19 18.12 19 16V9c0-3.87-3.13-7-7-7zm0 2c2.76 0 5 2.24 5 5v7c0 1.29-.65 2.42-1.64 3.11L14 20h-4l-.36-.89C8.65 18.42 8 17.29 8 16V9c0-2.76 2.24-5 5-5z"
+      fill={color}
+    />
+  </Svg>
+);
+
+const Gong = ({ color }: { color: string }) => (
+  <Svg width="24" height="24" viewBox="0 0 24 24">
+    <Path
+      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+      fill={color}
+    />
+    <Path
+      d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"
+      fill={color}
+    />
+  </Svg>
+);
+
+const SignalVisual = ({ signal }: { signal: string }) => {
+  const colorScheme = useColorScheme() ?? 'light';
+  const textColor = Colors[colorScheme].text;
+
+  const renderSymbol = (char: string, index: number) => {
+    switch (char) {
+      case '.':
+        return <Dot key={index} color={textColor} />;
+      case '-':
+        return <LineSymbol key={index} color={textColor} />;
+      case 'b':
+        return <Bell key={index} color={textColor} />;
+      case 'g':
+        return <Gong key={index} color={textColor} />;
+      default:
+        return null;
     }
   };
 
   return (
-    <ThemedText style={[styles.signal, { color: tintColor }]}>
-      {renderSignal()}
-    </ThemedText>
+    <View style={styles.signalContainer}>
+      {signal.split('').map((char, index) => renderSymbol(char, index))}
+    </View>
   );
 };
 
@@ -160,9 +205,7 @@ export default function SoundsScreen() {
                   <ThemedText>{signal.description}</ThemedText>
                 </ThemedView>
                 <ThemedView style={styles.signalVisual}>
-                  {signal.signals.map((s, index) => (
-                    <SignalVisual key={index} type={s.type} count={s.count} />
-                  ))}
+                    <SignalVisual signal={signal.signal} />
                 </ThemedView>
               </ThemedView>
             ))}
@@ -221,5 +264,10 @@ const styles = StyleSheet.create({
   },
   signal: {
     fontSize: 24,
+  },
+  signalContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
 }); 
