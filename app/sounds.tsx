@@ -2,8 +2,10 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
 import { Stack } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Line, Path } from 'react-native-svg';
 
@@ -120,6 +122,66 @@ const Gong = ({ color }: { color: string }) => (
 const SignalVisual = ({ signal }: { signal: string }) => {
   const colorScheme = useColorScheme() ?? 'light';
   const textColor = Colors[colorScheme].text;
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+
+  const playSignal = async () => {
+    if (isPlaying) return;
+
+    try {
+      setIsPlaying(true);
+
+      // Play each character in sequence
+      for (let i = 0; i < signal.length; i++) {
+        const char = signal[i];
+        let soundFile;
+        let duration = 1000; // Default duration in ms
+
+        switch (char) {
+          case '.':
+            soundFile = require('@/assets/sounds/short.mp3');
+            break;
+          case '-':
+            soundFile = require('@/assets/sounds/long.mp3');
+            duration = 2000;
+            break;
+          case 'b':
+            soundFile = require('@/assets/sounds/bell.mp3');
+            duration = 800;
+            break;
+          case 'g':
+            soundFile = require('@/assets/sounds/gong.mp3');
+            duration = 1000;
+            break;
+        }
+
+        if (soundFile) {
+          const { sound: charSound } = await Audio.Sound.createAsync(soundFile, {
+            shouldPlay: true,
+          });
+          setSound(charSound);
+          await new Promise(resolve => setTimeout(resolve, duration));
+          await charSound.unloadAsync();
+        }
+
+        // Add a small pause between signals
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
+    } catch (error) {
+      console.error('Error playing sound:', error);
+    } finally {
+      setIsPlaying(false);
+      setSound(null);
+    }
+  };
 
   const renderSymbol = (char: string, index: number) => {
     switch (char) {
@@ -138,7 +200,22 @@ const SignalVisual = ({ signal }: { signal: string }) => {
 
   return (
     <View style={styles.signalContainer}>
-      {signal.split('').map((char, index) => renderSymbol(char, index))}
+      <View style={styles.symbolsContainer}>
+        {signal.split('').map((char, index) => renderSymbol(char, index))}
+      </View>
+      <Pressable
+        onPress={playSignal}
+        disabled={isPlaying}
+        style={({ pressed }) => [
+          styles.speakerButton,
+          { opacity: pressed || isPlaying ? 0.5 : 1 },
+        ]}>
+        <Ionicons
+          name={isPlaying ? 'volume-high' : 'volume-high-outline'}
+          size={24}
+          color={textColor}
+        />
+      </Pressable>
     </View>
   );
 };
@@ -269,5 +346,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+  },
+  symbolsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  speakerButton: {
+    padding: 4,
   },
 }); 
