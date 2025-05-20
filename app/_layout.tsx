@@ -38,7 +38,7 @@ export default function RootLayout() {
           <Stack.Screen
             name="index"
             options={{
-              title: 'BlueHorizon Companion',
+              title: '',
               headerTitleAlign: 'center',
               headerRight: () => (
                 <Pressable onPress={() => router.push('/settings')} style={{ marginRight: 16 }}>

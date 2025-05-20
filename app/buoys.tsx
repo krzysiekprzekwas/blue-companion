@@ -16,36 +16,6 @@ type Buoy = {
 };
 
 const buoys: Buoy[] = [
-  // IALA A
-  {
-    id: 'iala-a-port',
-    name: 'Port Hand Mark',
-    description: 'Red can or pillar buoy marking the port side of the channel',
-    imageUrl: 'https://placehold.co/400x400/1D3D47/FFFFFF/png?text=Port+Hand',
-    group: 'IALA A',
-  },
-  {
-    id: 'iala-a-starboard',
-    name: 'Starboard Hand Mark',
-    description: 'Green conical buoy marking the starboard side of the channel',
-    imageUrl: 'https://placehold.co/400x400/1D3D47/FFFFFF/png?text=Starboard+Hand',
-    group: 'IALA A',
-  },
-  // IALA B
-  {
-    id: 'iala-b-port',
-    name: 'Port Hand Mark',
-    description: 'Green can or pillar buoy marking the port side of the channel',
-    imageUrl: 'https://placehold.co/400x400/1D3D47/FFFFFF/png?text=Port+Hand',
-    group: 'IALA B',
-  },
-  {
-    id: 'iala-b-starboard',
-    name: 'Starboard Hand Mark',
-    description: 'Red conical buoy marking the starboard side of the channel',
-    imageUrl: 'https://placehold.co/400x400/1D3D47/FFFFFF/png?text=Starboard+Hand',
-    group: 'IALA B',
-  },
   // Cardinal Marks
   {
     id: 'cardinal-north',

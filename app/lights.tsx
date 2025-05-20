@@ -2,6 +2,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { getShipImage } from '@/utils/shipImages';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
@@ -12,7 +13,7 @@ type Ship = {
   name: string;
   type: string;
   category: string;
-  image: any;
+  lightDescription?: string;
 };
 
 const ships: Ship[] = [
@@ -22,21 +23,21 @@ const ships: Ship[] = [
     name: 'Small Power Vessel',
     type: 'Power Vessel',
     category: 'Less than 12m',
-    image: require('@/assets/images/ships/power-small.png'),
+    lightDescription: 'A small power-driven vessel under 12 meters long shall exhibit side, stern and mast lights. The side lights may be combined in one lantern. The mast and stern light may be replaced by one light visible from all sides',
   },
   {
     id: 'power-medium',
     name: 'Medium Power Vessel',
     type: 'Power Vessel',
     category: 'Less than 50m',
-    image: require('@/assets/images/ships/power-medium.png'),
+    lightDescription: 'A medium power-driven vessel under 50 meters long shall exhibit side, stern and mast lights. Lights must be separate, cannot be combined. It is allowed to light up additional mast light, usually used to indicate direction where the vessel is heading.',
   },
   {
     id: 'power-large',
     name: 'Large Power Vessel',
     type: 'Power Vessel',
     category: 'More than 50m',
-    image: require('@/assets/images/ships/power-large.png'),
+    lightDescription: 'A large power-driven vessel under 50 meters long shall exhibit side, stern and 2 mast lights. It carries all the lights from medium sized vessel with additional, obligatory mast light.',
   },
   // Fishing vessels
   {
@@ -44,14 +45,12 @@ const ships: Ship[] = [
     name: 'Fishing Trawler',
     type: 'Fishing Vessel',
     category: 'Trawler',
-    image: require('@/assets/images/ships/power-medium.png'),
   },
   {
     id: 'fishing-other',
     name: 'Other Fishing Vessel',
     type: 'Fishing Vessel',
     category: 'Not Trawler',
-    image: require('@/assets/images/ships/power-medium.png'),
   },
 ];
 
@@ -75,10 +74,10 @@ export default function LightsScreen() {
           ]}
           onPress={() => router.push({
             pathname: '/ship-details',
-            params: { name: ship.name, id: ship.id }
+            params: { name: ship.name, id: ship.id, lightDescription: ship.lightDescription },
           })}>
           <Image
-            source={ship.image}
+            source={getShipImage( ship.id, 'top')}
             style={styles.shipImage}
             contentFit="contain"
           />

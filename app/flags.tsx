@@ -1,11 +1,10 @@
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Image } from 'expo-image';
 import { Stack } from 'expo-router';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 type Flag = {
   id: string;
@@ -35,28 +34,28 @@ const flags: Flag[] = [
     name: 'Charlie',
     code: 'C',
     description: 'Yes (affirmative)',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/ICS_Charlie.svg/1200px-ICS_Charlie.svg.png',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Charlie_flag.svg/1920px-Charlie_flag.svg.png',
   },
   {
     id: 'delta',
     name: 'Delta',
     code: 'D',
     description: 'Keep clear of me; I am maneuvering with difficulty',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/ICS_Delta.svg/1200px-ICS_Delta.svg.png',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Delta_flag.svg/1920px-Delta_flag.svg.png',
   },
   {
     id: 'echo',
     name: 'Echo',
     code: 'E',
     description: 'I am altering my course to starboard',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/ICS_Echo.svg/1200px-ICS_Echo.svg.png',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Echo_flag.svg/1920px-Echo_flag.svg.png',
   },
   {
     id: 'foxtrot',
     name: 'Foxtrot',
     code: 'F',
     description: 'I am disabled; communicate with me',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/ICS_Foxtrot.svg/1200px-ICS_Foxtrot.svg.png',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Foxtrot_flag.svg/1920px-Foxtrot_flag.svg.png',
   },
   {
     id: 'golf',
@@ -114,15 +113,19 @@ export default function FlagsScreen() {
                     style={styles.flagImage}
                     contentFit="contain"
                     />
-                    <ThemedView style={styles.flagInfo}>
-                        <ThemedView style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                            <ThemedText type="title">
+                    <View style={styles.flagInfo}>
+                        <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                            <Text style={styles.flagCode}>
                                 {flag.name[0]}
-                            </ThemedText>
-                            <ThemedText type="subtitle">{flag.name.slice(1)}</ThemedText>
-                        </ThemedView>
-                        <ThemedText>{flag.description}</ThemedText>
-                    </ThemedView>
+                            </Text>
+                            <Text style={styles.flagName}>
+                              {flag.name.slice(1)}
+                            </Text>
+                        </View>
+                        <Text style={styles.flagDescription}>
+                          {flag.description}
+                        </Text>
+                    </View>
                 </Pressable>
                 ))}
             </ScrollView>
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
   },
   flagTile: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: '#1B2A47',
     borderRadius: 12,
     padding: 16,
     gap: 16,
@@ -159,5 +162,21 @@ const styles = StyleSheet.create({
   flagInfo: {
     flex: 1,
     gap: 4,
+  },
+  flagCode: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    lineHeight: 32,
+    color: '#FFFFFF',
+  },
+  flagName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  flagDescription: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#FFFFFF',
   },
 }); 

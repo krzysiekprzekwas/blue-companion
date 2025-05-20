@@ -4,7 +4,6 @@ import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { translations } from '@/constants/Translations';
@@ -63,13 +62,10 @@ export default function HomeScreen() {
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
+          source={require('@/assets/images/companion-welcome.png')}
           style={styles.reactLogo}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">{t('categories')}</ThemedText>
-      </ThemedView>
       <ThemedView style={styles.gridContainer}>
         {categories.map((category) => (
           <Pressable
@@ -91,12 +87,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
-  },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -110,8 +100,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   reactLogo: {
-    height: 178,
-    width: 290,
+    width: '100%',
+    height: '100%',
     bottom: 0,
     left: 0,
     position: 'absolute',
