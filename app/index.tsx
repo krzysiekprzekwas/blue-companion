@@ -1,14 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
+import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
+import { AppLogo } from '@/components/AppLogo';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { translations } from '@/constants/Translations';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import CategoryCard from '../components/CategoryCard';
 
 type Category = {
@@ -53,19 +53,12 @@ const categories: Category[] = [
 
 export default function HomeScreen() {
   const router = useRouter();
-  const colorScheme = useColorScheme() ?? 'light';
-  const tintColor = Colors[colorScheme].tint;
   const { t } = useLanguage();
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/companion-welcome.png')}
-          style={styles.reactLogo}
-        />
-      }>
+      headerBackgroundColor={{ light: Colors['light'].background, dark: Colors['dark'].background }}
+      headerComponent={<AppLogo></AppLogo>}>
       <ThemedView style={styles.gridContainer}>
         {categories.map((category) => (
           <Pressable

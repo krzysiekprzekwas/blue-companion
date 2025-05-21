@@ -16,15 +16,12 @@ export default function CategoryCard({
       <View style={styles.backgroundIconContainer}>
         <Ionicons name={iconName} size={240} color="rgba(255, 255, 255, 0.1)" />
       </View>
-      
       <View style={styles.contentContainer}>
-        
         <View style={styles.badgeContainer}>
           <View style={styles.badgeCircle}>
             <Ionicons name={iconName} size={20} color="#C0A989" />
           </View>
         </View>
-        
         <View style={styles.middleSection}>
           <Text style={styles.titleText}>{name}</Text>
         </View>
@@ -44,6 +41,7 @@ const styles = StyleSheet.create({
     elevation: 8,
     overflow: 'hidden',
     position: 'relative',
+    height: 156,
   },
   backgroundIconContainer: {
     position: 'absolute',
@@ -54,7 +52,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 24,
     flex: 1,
-    justifyContent: 'space-between',
   },
   badgeContainer: {
     position: 'absolute',
@@ -70,12 +67,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   middleSection: {
-    marginTop: 64,
+    marginTop: 48,
+    height: 48,
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   titleText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
-    marginBottom: 12,
   },
 });
