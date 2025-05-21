@@ -13,7 +13,10 @@ import { Pressable } from 'react-native';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'OpenSans-Regular': require('../assets/fonts/OpenSans-VariableFont_wdth,wght.ttf'),
+    'OpenSans-SemiBold': require('../assets/fonts/open-sans.semibold.ttf'),
+    'OpenSans-Bold': require('../assets/fonts/OpenSans-Bold.ttf'),
+    CormorantUpright: require('../assets/fonts/CormorantUpright-SemiBold.ttf'),
   });
   const router = useRouter();
 
