@@ -14,7 +14,7 @@ export default function CategoryCard({
   return (
     <View style={styles.container}>
       <View style={styles.backgroundIconContainer}>
-        <Ionicons name={iconName} size={240} color="rgba(255, 255, 255, 0.1)" />
+        <Ionicons name={iconName} size={240} color="rgba(192, 169, 137, 0.2)" />
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.badgeContainer}>
@@ -34,10 +34,6 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 16,
     backgroundColor: '#1B2A47',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
     elevation: 8,
     overflow: 'hidden',
     position: 'relative',
