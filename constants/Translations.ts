@@ -12,6 +12,7 @@ export type Translations = {
     daySigns: string;
     buoys: string;
     sounds: string;
+    train: string;
 
     // Settings
     language: string;
@@ -50,6 +51,7 @@ export const translations: Translations = {
     daySigns: 'Day Signs',
     buoys: 'Buoys',
     sounds: 'Sounds',
+    train: 'Training',
     language: 'Language',
     selectLanguage: 'Select Language',
     english: 'English',
@@ -79,6 +81,7 @@ export const translations: Translations = {
     daySigns: 'Znaki Dziennie',
     buoys: 'Boje',
     sounds: 'Dźwięki',
+    train: 'Trening',
     language: 'Język',
     selectLanguage: 'Wybierz Język',
     english: 'Angielski',

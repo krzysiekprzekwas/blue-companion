@@ -11,53 +11,29 @@ import { translations } from '@/constants/Translations';
 import { useLanguage } from '@/contexts/LanguageContext';
 import CategoryCard from '../components/CategoryCard';
 
-type Category = {
+type TrainingCategory = {
   id: string;
   titleKey: keyof typeof translations.en;
   icon: keyof typeof Ionicons.glyphMap;
-  route: '/lights' | '/flags' | '/daysigns' | '/buoys' | '/sounds' | '/train';
+  route: '/train/lights' | '/train/flags';
 };
 
-const categories: Category[] = [
+const trainingCategories: TrainingCategory[] = [
   {
-    id: 'lights',
+    id: 'train-lights',
     titleKey: 'lights',
     icon: 'bulb-outline',
-    route: '/lights',
+    route: '/train/lights',
   },
   {
-    id: 'flags',
+    id: 'train-flags',
     titleKey: 'flags',
     icon: 'flag-outline',
-    route: '/flags',
-  },
-  {
-    id: 'daysigns',
-    titleKey: 'daySigns',
-    icon: 'warning-outline',
-    route: '/daysigns',
-  },
-  {
-    id: 'buoys',
-    titleKey: 'buoys',
-    icon: 'compass-outline',
-    route: '/buoys',
-  },
-  {
-    id: 'sounds',
-    titleKey: 'sounds',
-    icon: 'volume-high-outline',
-    route: '/sounds',
-  },
-  {
-    id: 'train',
-    titleKey: 'train',
-    icon: 'school-outline',
-    route: '/train',
+    route: '/train/flags',
   },
 ];
 
-export default function HomeScreen() {
+export default function TrainingScreen() {
   const router = useRouter();
   const { t } = useLanguage();
 
@@ -66,7 +42,7 @@ export default function HomeScreen() {
       headerBackgroundColor={{ light: Colors['light'].background, dark: Colors['dark'].background }}
       headerComponent={<AppLogo></AppLogo>}>
       <ThemedView style={styles.gridContainer}>
-        {categories.map((category) => (
+        {trainingCategories.map((category) => (
           <Pressable
             key={category.id}
             style={({ pressed }) => [
@@ -98,11 +74,4 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     gap: 8,
   },
-  reactLogo: {
-    width: '100%',
-    height: '100%',
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+}); 

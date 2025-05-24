@@ -118,9 +118,9 @@ export default function LightsScreen() {
       <ThemedView style={styles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
           <ThemedView style={styles.descriptionContainer}>
-            <ThemedText style={styles.descriptionText}>
+            <Text style={styles.descriptionText}>
               Navigation lights are essential safety features that help vessels determine the type, size, and direction of other ships at night or in poor visibility. This guide shows the required lighting configurations for different types of vessels.
-            </ThemedText>
+            </Text>
             <Pressable
               style={({ pressed }) => [
                 styles.showMoreButton,
@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     lineHeight: 24,
+    color: 'white',
   },
   showMoreButton: {
     flexDirection: 'row',
