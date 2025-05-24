@@ -1,57 +1,12 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { getShipImage } from '@/utils/shipImages';
+import { Ship, ships } from '@/constants/Ships';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-type Ship = {
-  id: string;
-  name: string;
-  type: string;
-  category: string;
-  lightDescription?: string;
-};
-
-const ships: Ship[] = [
-  // Power vessels
-  {
-    id: 'power-small',
-    name: 'Small Power Vessel',
-    type: 'Power Vessel',
-    category: 'Less than 12m',
-    lightDescription: 'A small power-driven vessel under 12 meters long shall exhibit side, stern and mast lights. The side lights may be combined in one lantern. The mast and stern light may be replaced by one light visible from all sides',
-  },
-  {
-    id: 'power-medium',
-    name: 'Medium Power Vessel',
-    type: 'Power Vessel',
-    category: 'Less than 50m',
-    lightDescription: 'A medium power-driven vessel under 50 meters long shall exhibit side, stern and mast lights. Lights must be separate, cannot be combined. It is allowed to light up additional mast light, usually used to indicate direction where the vessel is heading.',
-  },
-  {
-    id: 'power-large',
-    name: 'Large Power Vessel',
-    type: 'Power Vessel',
-    category: 'More than 50m',
-    lightDescription: 'A large power-driven vessel under 50 meters long shall exhibit side, stern and 2 mast lights. It carries all the lights from medium sized vessel with additional, obligatory mast light.',
-  },
-  // Fishing vessels
-  {
-    id: 'fishing-trawler',
-    name: 'Fishing Trawler',
-    type: 'Fishing Vessel',
-    category: 'Trawler',
-  },
-  {
-    id: 'fishing-other',
-    name: 'Other Fishing Vessel',
-    type: 'Fishing Vessel',
-    category: 'Not Trawler',
-  },
-];
 
 type ShipType = 'All' | 'Power Vessel' | 'Fishing Vessel';
 
@@ -93,7 +48,7 @@ export default function LightsScreen() {
               params: { name: ship.name, id: ship.id, lightDescription: ship.lightDescription },
             })}>
             <Image
-              source={getShipImage(ship.id, 'top')}
+              source={ship.top}
               style={styles.shipImage}
               contentFit="contain"
             />

@@ -1,12 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
-import { AppLogo } from '@/components/AppLogo';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
 import { translations } from '@/constants/Translations';
 import { useLanguage } from '@/contexts/LanguageContext';
 import CategoryCard from '../components/CategoryCard';
@@ -38,9 +35,13 @@ export default function TrainingScreen() {
   const { t } = useLanguage();
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: Colors['light'].background, dark: Colors['dark'].background }}
-      headerComponent={<AppLogo></AppLogo>}>
+    <>
+      <Stack.Screen
+        options={{
+          title: "Train",
+          headerTitleAlign: 'center',
+        }}
+      />
       <ThemedView style={styles.gridContainer}>
         {trainingCategories.map((category) => (
           <Pressable
@@ -57,12 +58,14 @@ export default function TrainingScreen() {
           </Pressable>
         ))}
       </ThemedView>
-    </ParallaxScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   gridContainer: {
+    flex: 1,
+    padding: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 16,

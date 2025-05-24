@@ -1,5 +1,4 @@
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Animated, Dimensions, Pressable, StyleSheet } from 'react-native';
 
@@ -7,11 +6,11 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { Flag, flags } from '@/constants/Flags';
+import { Stack } from 'expo-router';
 
 const flipAnimation = new Animated.Value(0);
 
 export default function FlagsTrainingScreen() {
-  const router = useRouter();
   const [currentFlag, setCurrentFlag] = useState<Flag | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -63,6 +62,13 @@ export default function FlagsTrainingScreen() {
   if (!currentFlag) return null;
 
   return (
+    <>
+      <Stack.Screen
+        options={{
+          title: "Flags Flashcards",
+          headerTitleAlign: 'center',
+        }}
+      />
     <ThemedView style={styles.container}>
       <Pressable onPress={flipCard} style={styles.cardContainer}>
         <Animated.View style={[styles.card, frontAnimatedStyle]}>
@@ -84,6 +90,7 @@ export default function FlagsTrainingScreen() {
         <ThemedText style={styles.buttonText}>Next Flag</ThemedText>
       </Pressable>
     </ThemedView>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import { Collapsible } from '@/components/Collapsible';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { getShipImage } from '@/utils/shipImages';
+import { ships } from '@/constants/Ships';
 import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
@@ -12,6 +12,8 @@ const imageSize = width - 40;
 
 export default function ShipDetailsScreen() {
   const { name, id, lightDescription } = useLocalSearchParams<{ name: string; id: string; lightDescription: string }>();
+
+  const ship = ships.find(s => s.id === id);
 
   return (
     <>
@@ -32,7 +34,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Port Side (Left)</ThemedText>
             <Image
-              source={getShipImage(id, 'left')}
+              source={ship?.left}
               style={styles.image}
               contentFit="contain"
             />
@@ -40,7 +42,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Starboard Side (Right)</ThemedText>
             <Image
-              source={getShipImage(id, 'right')}
+              source={ship?.right}
               style={styles.image}
               contentFit="contain"
             />
@@ -48,7 +50,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Stern (Back)</ThemedText>
             <Image
-              source={getShipImage(id, 'back')}
+              source={ship?.back}
               style={styles.image}
               contentFit="contain"
             />
@@ -56,7 +58,7 @@ export default function ShipDetailsScreen() {
           <ThemedView style={styles.imageContainer}>
             <ThemedText type="subtitle">Bow (Front)</ThemedText>
             <Image
-              source={getShipImage(id, 'front')}
+              source={ship?.front}
               style={styles.image}
               contentFit="contain"
             />

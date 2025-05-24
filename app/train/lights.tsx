@@ -1,13 +1,16 @@
-import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
+import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Animated, Dimensions, Image, Pressable, StyleSheet } from 'react-native';
+import { Animated, Dimensions, Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
-import { Ship, ships, ShipSide } from '@/constants/Ships';
+import { Ship, ships } from '@/constants/Ships';
 
 const flipAnimation = new Animated.Value(0);
+
+type ShipSide = 'front' | 'back' | 'left' | 'right';
 
 export default function LightsTrainingScreen() {
   const router = useRouter();
@@ -21,7 +24,7 @@ export default function LightsTrainingScreen() {
 
   const selectRandomShip = () => {
     const randomShip = ships[Math.floor(Math.random() * ships.length)];
-    const sides = Object.keys(randomShip.sides) as ShipSide[];
+    const sides: ShipSide[] = ['front', 'back', 'left', 'right'];
     const randomSide = sides[Math.floor(Math.random() * sides.length)];
     setCurrentShip(randomShip);
     setCurrentSide(randomSide);
@@ -65,23 +68,41 @@ export default function LightsTrainingScreen() {
 
   if (!currentShip) return null;
 
+  const getSideDescription = (side: ShipSide) => {
+    switch (side) {
+      case 'front':
+        return 'View from bow (front)';
+      case 'back':
+        return 'View from stern (back)';
+      case 'left':
+        return 'View from port side (left)';
+      case 'right':
+        return 'View from starboard side (right)';
+    }
+  };
+
   return (
+    <>
+      <Stack.Screen
+        options={{
+          title: "Lights Flashcards",
+          headerTitleAlign: 'center',
+        }}
+      />
     <ThemedView style={styles.container}>
       <Pressable onPress={flipCard} style={styles.cardContainer}>
         <Animated.View style={[styles.card, frontAnimatedStyle]}>
           <Image
-            source={currentShip.sides[currentSide].image}
+            source={currentShip[currentSide]}
             style={styles.shipImage}
-            resizeMode="contain"
+            contentFit="contain"
           />
           <ThemedText style={styles.cardText}>Tap to reveal</ThemedText>
         </Animated.View>
         <Animated.View style={[styles.card, styles.cardBack, backAnimatedStyle]}>
-          <ThemedText style={styles.cardText}>{currentShip.type}</ThemedText>
-          <ThemedText style={styles.cardText}>View from: {currentSide}</ThemedText>
-          <ThemedText style={styles.descriptionText}>
-            {currentShip.sides[currentSide].description}
-          </ThemedText>
+          <ThemedText style={styles.cardText}>{currentShip.name}</ThemedText>
+          <ThemedText style={styles.cardText}>{currentShip.category}</ThemedText>
+          <ThemedText style={styles.cardText}>{getSideDescription(currentSide)}</ThemedText>
         </Animated.View>
       </Pressable>
       <Pressable
@@ -90,6 +111,7 @@ export default function LightsTrainingScreen() {
         <ThemedText style={styles.buttonText}>Next Ship</ThemedText>
       </Pressable>
     </ThemedView>
+    </>
   );
 }
 
@@ -108,7 +130,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    height: '100%',
+    height: 200,
     backgroundColor: Colors.light.background,
     borderRadius: 20,
     padding: 20,
@@ -118,8 +140,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   cardBack: {
-    backgroundColor: Colors.light.tint,
-    height: 200,
+    backgroundColor: Colors.light.tint
   },
   shipImage: {
     width: '100%',
@@ -130,14 +151,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 10,
-    color: 'white'
+    color: 'white',
   },
   descriptionText: {
     fontSize: 18,
     textAlign: 'center',
     marginTop: 10,
     paddingHorizontal: 20,
-    color: 'white'
+    color: 'white',
   },
   nextButton: {
     marginTop: 20,
