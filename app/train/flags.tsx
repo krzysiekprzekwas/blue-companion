@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Animated, Dimensions, Pressable, StyleSheet } from 'react-native';
@@ -5,38 +6,32 @@ import { Animated, Dimensions, Pressable, StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
+import { Flag, flags } from '@/constants/Flags';
 
-// This would typically come from your data source
-const flagTypes = [
-  { name: 'Alpha', meaning: 'I have a diver down; keep well clear at slow speed' },
-  { name: 'Bravo', meaning: 'I am taking in, discharging, or carrying dangerous goods' },
-  { name: 'Charlie', meaning: 'Yes (affirmative)' },
-  { name: 'Delta', meaning: 'Keep clear of me; I am maneuvering with difficulty' },
-  { name: 'Echo', meaning: 'I am altering my course to starboard' },
-  // Add more flag types as needed
-];
+const flipAnimation = new Animated.Value(0);
 
 export default function FlagsTrainingScreen() {
   const router = useRouter();
-  const [currentFlag, setCurrentFlag] = useState<typeof flagTypes[0] | null>(null);
+  const [currentFlag, setCurrentFlag] = useState<Flag | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
-  const flipAnimation = new Animated.Value(0);
 
   useEffect(() => {
     selectRandomFlag();
   }, []);
 
   const selectRandomFlag = () => {
-    const randomFlag = flagTypes[Math.floor(Math.random() * flagTypes.length)];
+    const randomFlag = flags[Math.floor(Math.random() * flags.length)];
     setCurrentFlag(randomFlag);
     setIsFlipped(false);
     flipAnimation.setValue(0);
   };
 
   const flipCard = () => {
+    const toValue = isFlipped ? 0 : 180;
     setIsFlipped(!isFlipped);
+    
     Animated.spring(flipAnimation, {
-      toValue: isFlipped ? 0 : 180,
+      toValue,
       friction: 8,
       tension: 10,
       useNativeDriver: true,
@@ -71,12 +66,16 @@ export default function FlagsTrainingScreen() {
     <ThemedView style={styles.container}>
       <Pressable onPress={flipCard} style={styles.cardContainer}>
         <Animated.View style={[styles.card, frontAnimatedStyle]}>
+          <Image
+            source={{ uri: currentFlag.imageUrl }}
+            style={styles.flagImage}
+            contentFit="contain"
+          />
           <ThemedText style={styles.cardText}>Flag: {currentFlag.name}</ThemedText>
           <ThemedText style={styles.cardText}>Tap to reveal meaning</ThemedText>
-          {/* Here you would display the flag image */}
         </Animated.View>
         <Animated.View style={[styles.card, styles.cardBack, backAnimatedStyle]}>
-          <ThemedText style={styles.cardText}>{currentFlag.meaning}</ThemedText>
+          <ThemedText style={styles.cardText}>{currentFlag.description}</ThemedText>
         </Animated.View>
       </Pressable>
       <Pressable
@@ -114,11 +113,18 @@ const styles = StyleSheet.create({
   },
   cardBack: {
     backgroundColor: Colors.light.tint,
+    height: 200,
+  },
+  flagImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 20,
   },
   cardText: {
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 10,
+    color: 'white',
   },
   nextButton: {
     marginTop: 20,
